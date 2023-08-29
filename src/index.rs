@@ -55,7 +55,6 @@ methods!(
             facet_fields: Vec<String>
         );
 
-        let index_path = MmapDirectory::open(path).try_unwrap();
         let mut schema_builder = Schema::builder();
 
         schema_builder.add_text_field("id", STRING | STORED);
@@ -97,7 +96,7 @@ methods!(
         }
 
         let schema = schema_builder.build();
-        let index = Index::open_or_create(index_path, schema.clone()).try_unwrap();
+        let index = Index::create_in_ram(schema.clone());
         let tokenizers = index.tokenizers();
 
         tokenizers.register("default", unwrap_tokenizer(&default_tokenizer).clone());
@@ -113,7 +112,7 @@ methods!(
             .reload_policy(ReloadPolicy::Manual)
             .try_into()
             .try_unwrap();
-        
+
         klass().wrap_data(
             TantinyIndex { index, index_writer, index_reader, schema },
             &*TANTINY_INDEX_WRAPPER
@@ -285,4 +284,4 @@ pub(super) fn init() {
         klass.def("__reload", reload);
         klass.def("__search", search);
     });
-} 
+}
