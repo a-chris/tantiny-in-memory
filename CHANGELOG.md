@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.4](https://github.com/a-chris/tantiny-in-memory/compare/v1.0.3...v1.0.4) (2023-09-04)
+
+
+### Bug Fixes
+
+* cargo edition 2021 ([fe5cd8c](https://github.com/a-chris/tantiny-in-memory/commit/fe5cd8cb264761026a9092ec8e2ac7cc674145de))
+* update cargo settings ([9744782](https://github.com/a-chris/tantiny-in-memory/commit/97447825d437c44332c66334bc3e070afec23913))
+
 ## [1.0.3](https://github.com/a-chris/tantiny-in-memory/compare/v1.0.2...v1.0.3) (2023-09-04)
 
 
