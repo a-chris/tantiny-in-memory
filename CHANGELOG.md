@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.6](https://github.com/a-chris/tantiny-in-memory/compare/v1.0.5...v1.0.6) (2023-09-04)
+
+
+### Bug Fixes
+
+* pending tests ([8023f17](https://github.com/a-chris/tantiny-in-memory/commit/8023f1744da2e88ba43e421f400f64aaf1abe4a2))
+* re-add ruby 3.1 & 3.2 ([1529742](https://github.com/a-chris/tantiny-in-memory/commit/15297425068d0c1281830947b3bf19f7d53dc162))
+
 ## [1.0.5](https://github.com/a-chris/tantiny-in-memory/compare/v1.0.4...v1.0.5) (2023-09-04)
 
 
