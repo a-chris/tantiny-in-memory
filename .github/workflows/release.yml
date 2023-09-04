@@ -7,7 +7,7 @@ on:
 
 jobs:
   check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     permissions:
       contents: write
@@ -33,7 +33,7 @@ jobs:
 
     if: ${{ needs.check.outputs.release_created }}
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     permissions:
       contents: write
@@ -69,8 +69,8 @@ jobs:
 
     strategy:
       matrix:
-        ruby: ['2.7', '3.0', '3.1']
-        os: ['ubuntu-latest', 'macos-latest']
+        ruby: ['2.7', '3.0', '3.1', '3.2']
+        os: ['ubuntu-20.04', 'macos-latest']
 
     permissions:
       contents: write
@@ -81,19 +81,11 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true
-    - uses: actions-rs/toolchain@v1
+    - uses: dtolnay/rust-toolchain@master
       with:
         toolchain: stable
     - name: Install dependencies
       run: bundle install
-    - name: Cache crate
-      uses: actions/cache@v2
-      with:
-        path: |
-          ~/.cargo/registry
-          ~/.cargo/git
-          target
-        key: cargo-${{ hashFiles('**/Cargo.lock') }}-ruby-${{ matrix.ruby }}-os-${{ matrix.os }}
     - name: Build crate
       run: bundle exec rake build
     - name: Create tarball
