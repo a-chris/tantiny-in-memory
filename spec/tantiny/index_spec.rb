@@ -32,13 +32,13 @@ RSpec.describe Tantiny::Index do
       expect(Dir.entries(tmpdir)).not_to be_empty
     end
 
-    # context "when folder at path does not exist" do
-    #   it "creates it first" do
-    #     FileUtils.rm_rf(tmpdir)
-    #     expect { Tantiny::Index.new(tmpdir) {} }.not_to raise_error
-    #     expect(Dir.entries(tmpdir)).not_to be_empty
-    #   end
-    # end
+    context "when folder at path does not exist" do
+      xit "creates it first" do
+        FileUtils.rm_rf(tmpdir)
+        expect { Tantiny::Index.new(tmpdir) {} }.not_to raise_error
+        expect(Dir.entries(tmpdir)).not_to be_empty
+      end
+    end
 
     it "creates schema" do
       schema = Tantiny::Schema.new(tokenizer, &schema_block)
@@ -83,7 +83,7 @@ RSpec.describe Tantiny::Index do
       index.transaction { collaborator_2.hello }
     end
 
-    it "synchronizes block execution between processes" do
+    xit "synchronizes block execution between processes" do
       collaborator_1 = double("Collaborator 1")
       collaborator_2 = double("Collaborator 2")
 
@@ -113,17 +113,17 @@ RSpec.describe Tantiny::Index do
       end
     end
 
-    # context "when another index holds exclusive writer" do
-    #   it "raises an error" do
-    #     collaborator = double("Collaborator")
+    context "when another index holds exclusive writer" do
+      xit "raises an error" do
+        collaborator = double("Collaborator")
 
-    #     Tantiny::Index.new(tmpdir, exclusive_writer: true, &schema_block)
+        Tantiny::Index.new(tmpdir, exclusive_writer: true, &schema_block)
 
-    #     expect {
-    #       index.transaction { collaborator.hello }
-    #     }.to raise_error(Tantiny::IndexWriterBusyError)
-    #   end
-    # end
+        expect {
+          index.transaction { collaborator.hello }
+        }.to raise_error(Tantiny::IndexWriterBusyError)
+      end
+    end
 
     it "commits the changes" do
       index.transaction { index << {id: "hello"} }

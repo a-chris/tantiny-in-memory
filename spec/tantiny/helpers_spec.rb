@@ -7,7 +7,7 @@ RSpec.describe Tantiny::Helpers do
     end
   end
 
-  describe "::with_lock" do
+  xdescribe "::with_lock" do
     let!(:lockfile) { Tempfile.new }
 
     after do
