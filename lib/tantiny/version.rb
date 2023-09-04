@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module Tantiny
-  VERSION = "0.3.3" # {x-release-please-version}
+  VERSION = "1.0.0" # {x-release-please-version}
 end
