@@ -2,7 +2,6 @@
 
 module Tantiny
   class Index
-    LOCKFILE = ".tantiny.lock"
     DEFAULT_WRITER_MEMORY = 5_000_000 # 5MB
     DEFAULT_LIMIT = 10
 
@@ -116,7 +115,7 @@ module Tantiny
     rescue TantivyError => e
       case e.message
       when /Failed to acquire Lockfile/
-        raise IndexWriterBusyError.new
+        raise IndexWriterBusyError
       else
         raise
       end
@@ -154,12 +153,8 @@ module Tantiny
 
     def synchronize(&block)
       @transaction_semaphore.synchronize do
-        Helpers.with_lock(lockfile_path, &block)
+        block.call
       end
-    end
-
-    def lockfile_path
-      @lockfile_path ||= File.join(@path, LOCKFILE)
     end
   end
 end
