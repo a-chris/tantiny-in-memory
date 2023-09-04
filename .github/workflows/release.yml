@@ -102,7 +102,7 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         tag_name: ${{ needs.check.outputs.tag_name }}
-        files: tantiny-in-memory-*.tar.gz
+        files: tantiny-*.tar.gz
     - name: Try installing without Cargo
       run: |
         gem uninstall tantiny-in-memory
