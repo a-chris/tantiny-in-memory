@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.7](https://github.com/a-chris/tantiny-in-memory/compare/v1.0.6...v1.0.7) (2023-09-04)
+
+
+### Bug Fixes
+
+* update readme ([25dd0eb](https://github.com/a-chris/tantiny-in-memory/commit/25dd0eba68c0befc0dcfe0df95d507f429e78f6f))
+
 ## [1.0.6](https://github.com/a-chris/tantiny-in-memory/compare/v1.0.5...v1.0.6) (2023-09-04)
 
 
