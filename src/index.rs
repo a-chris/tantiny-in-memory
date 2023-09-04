@@ -4,7 +4,6 @@ use rutie::{methods, Object, AnyObject, Integer, NilClass, Array, RString, Hash}
 use tantivy::{doc, Document, Term, ReloadPolicy, Index, IndexWriter, IndexReader, DateTime};
 use tantivy::schema::{Schema, TextOptions, TextFieldIndexing, IndexRecordOption, FacetOptions, STRING, STORED, INDEXED, FAST};
 use tantivy::collector::TopDocs;
-use tantivy::directory::MmapDirectory;
 
 use crate::helpers::{scaffold, try_unwrap_params, TryUnwrap};
 use crate::query::{unwrap_query, RTantinyQuery};
@@ -33,7 +32,7 @@ methods!(
     _itself,
 
     fn new_index(
-        path: RString,
+        _path: RString,
         default_tokenizer: AnyObject,
         field_tokenizers: Hash,
         text_fields: Array,
@@ -44,7 +43,7 @@ methods!(
         facet_fields: Array
     ) -> RTantinyIndex {
         try_unwrap_params!(
-            path: String,
+            _path: String,
             default_tokenizer: RTantinyTokenizer,
             field_tokenizers: HashMap<String, RTantinyTokenizer>,
             text_fields: Vec<String>,
