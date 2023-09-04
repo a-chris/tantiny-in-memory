@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/a-chris/tantiny-in-memory/compare/v1.0.2...v1.0.3) (2023-09-04)
+
+
+### Bug Fixes
+
+* file related methods ([7369491](https://github.com/a-chris/tantiny-in-memory/commit/736949108cc883fbc7d8cd25a57746778b0ba6e2))
+
 ## [1.0.2](https://github.com/a-chris/tantiny-in-memory/compare/v1.0.1...v1.0.2) (2023-09-04)
 
 
