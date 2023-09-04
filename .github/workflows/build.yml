@@ -13,14 +13,12 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     strategy:
       matrix:
         ruby:
         - 2.7
-        - 3.1
-        - 3.2
 
     steps:
     - uses: actions/checkout@v2
@@ -28,19 +26,13 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true
-    - uses: actions-rs/toolchain@v1
+    - uses: dtolnay/rust-toolchain@master
       with:
-        toolchain: 1.60.0
+        toolchain: stable
     - name: Install dependencies
       run: bundle install
-    - name: Cache crate
-      uses: actions/cache@v2
-      with:
-        path: |
-          ~/.cargo/registry
-          ~/.cargo/git
-          target
-        key: cargo-${{ hashFiles('**/Cargo.lock') }}-ruby-${{ matrix.ruby }}
+    - name: Print GLIBC
+      run: echo $(ldd --version)
     - name: Build crate
       run: bundle exec rake build
     - name: Lint source code with with RuboCop
