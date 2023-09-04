@@ -14,7 +14,7 @@ Tantiny is not exactly Ruby bindings to Tantivy, but it tries to be close. The m
 Take a look at the most basic example:
 
 ```ruby
-index = Tantiny::Index.new("/path/to/index") { text :description }
+index = Tantiny::Index.new(nil) { text :description }
 
 index << { id: 1, description: "Hello World!" }
 index << { id: 2, description: "What's up?" }
@@ -30,7 +30,7 @@ index.search("world") # 1, 3
 Add this line to your application's Gemfile:
 
 ```ruby
-gem "tantiny"
+gem "tantiny-in-memory"
 ```
 
 And then execute:
@@ -39,7 +39,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install tantiny
+    $ gem install tantiny-in-memory
 
 You don't **have to** have Rust installed on your system since Tantiny will try to download the pre-compiled binaries hosted on GitHub releases during the installation. However, if no pre-compiled binaries were found for your system (which is a combination of platform, architecture, and Ruby version) you will need to [install Rust](https://www.rust-lang.org/tools/install) first.
 
@@ -52,7 +52,7 @@ Please, make sure to specify the minor version when declaring dependency on `tan
 You have to specify a path to where the index would be stored and a block that defines the schema:
 
 ```ruby
-Tantiny::Index.new "/tmp/index" do
+Tantiny::Index.new(nil) do
   id :imdb_id
   facet :category
   string :title
