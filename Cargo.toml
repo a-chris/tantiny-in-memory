@@ -1,9 +1,9 @@
 [package]
 name = "tantiny"
 version = "1.0.3" # {x-release-please-version}
-edition = "2021"
-authors = ["Alexander Baygeldin"]
-repository = "https://github.com/baygeldin/tantiny"
+edition = "2023"
+authors = ["Christian Toscano"]
+repository = "https://github.com/a-chris/tantiny-in-memory"
 
 [lib]
 crate-type = ["cdylib"]
