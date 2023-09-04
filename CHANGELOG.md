@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.5](https://github.com/a-chris/tantiny-in-memory/compare/v1.0.4...v1.0.5) (2023-09-04)
+
+
+### Bug Fixes
+
+* run on ubuntu-20.04 due to error GLIBC_2.33 not found ([54d411f](https://github.com/a-chris/tantiny-in-memory/commit/54d411f793c4bc95a9e2f1844387b458008777f0))
+* ubuntu-latest + rust 1.60.0 ([cd7dea0](https://github.com/a-chris/tantiny-in-memory/commit/cd7dea0f74a014331933319eac6925663ca26489))
+
 ## [1.0.4](https://github.com/a-chris/tantiny-in-memory/compare/v1.0.3...v1.0.4) (2023-09-04)
 
 
