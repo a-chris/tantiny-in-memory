@@ -7,8 +7,6 @@ module Tantiny
     DEFAULT_LIMIT = 10
 
     def self.new(path, **options, &block)
-      FileUtils.mkdir_p(path)
-
       default_tokenizer = options[:tokenizer] || Tokenizer.default
       schema = Schema.new(default_tokenizer, &block)
 
