@@ -3,7 +3,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/1b466b52d2ba71ab9d80/maintainability)](https://codeclimate.com/github/baygeldin/tantiny/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/1b466b52d2ba71ab9d80/test_coverage)](https://codeclimate.com/github/baygeldin/tantiny/test_coverage)
 
-# Tantiny
+# Tantiny In Memory
 
 Need a fast full-text search for your Ruby script, but Solr and Elasticsearch are an overkill? 😏
 
@@ -45,7 +45,7 @@ You don't **have to** have Rust installed on your system since Tantiny will try 
 
 ⚠️ **IMPORTANT** ⚠️
 
-Please, make sure to specify the minor version when declaring dependency on `tantiny`. The API is a subject to change, and until it reaches `1.0.0` a bump in the minor version will most likely signify a breaking change. 
+Please, make sure to specify the minor version when declaring dependency on `tantiny`. The API is a subject to change, and until it reaches `1.0.0` a bump in the minor version will most likely signify a breaking change.
 
 ## Defining the index
 
@@ -142,7 +142,7 @@ index.transaction do
 end
 ```
 
-Transactions group changes and [commit](https://docs.rs/tantivy/latest/tantivy/struct.IndexWriter.html#method.commit) them to the index in one go. This is *dramatically* more efficient than performing these changes one by one. In fact, all writing operations (i.e. `<<` and `delete`) are wrapped in a transaction implicitly when you call them outside of a transaction, so calling `<<` 10 times outside of a transaction is the same thing as performing 10 separate transactions. 
+Transactions group changes and [commit](https://docs.rs/tantivy/latest/tantivy/struct.IndexWriter.html#method.commit) them to the index in one go. This is *dramatically* more efficient than performing these changes one by one. In fact, all writing operations (i.e. `<<` and `delete`) are wrapped in a transaction implicitly when you call them outside of a transaction, so calling `<<` 10 times outside of a transaction is the same thing as performing 10 separate transactions.
 
 ### Concurrency and thread-safety
 
@@ -182,7 +182,7 @@ You may wonder, how exactly does it conduct the search? Well, the default behavi
 index.search("a dlunk, a kib, and an olt mab", fuzzy_distance: 1)
 ```
 
-However, you can customize it by composing your own query out of basic building blocks: 
+However, you can customize it by composing your own query out of basic building blocks:
 
 ```ruby
 popular_movies = index.range_query(:rating, 8.0..10.0)
@@ -276,7 +276,7 @@ The `regex_query` accepts the regex pattern, but it has to be a [Rust regex](htt
 
 So, we've mentioned tokenizers more than once already. What are they?
 
-Tokenizers is what Tantivy uses to chop your text onto terms to build an inverted index. Then you can search the index by these terms. It's an important concept to understand so that you don't get confused when `index.term_query(:description, "Hello")` returns nothing because `Hello` isn't a term, but `hello` is. You have to extract the terms from the query before searching the index. Currently, only `smart_query` does that for you. Also, the only field type that is tokenized is `text`, so for `string` fields you should use the exact match (i.e. `index.term_query(:title, "Hello")`). 
+Tokenizers is what Tantivy uses to chop your text onto terms to build an inverted index. Then you can search the index by these terms. It's an important concept to understand so that you don't get confused when `index.term_query(:description, "Hello")` returns nothing because `Hello` isn't a term, but `hello` is. You have to extract the terms from the query before searching the index. Currently, only `smart_query` does that for you. Also, the only field type that is tokenized is `text`, so for `string` fields you should use the exact match (i.e. `index.term_query(:title, "Hello")`).
 
 ### Specifying the tokenizer
 
