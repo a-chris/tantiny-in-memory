@@ -3,21 +3,21 @@
 require_relative "lib/tantiny/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "tantiny"
+  spec.name = "tantiny-in-memory"
   spec.version = Tantiny::VERSION
-  spec.authors = ["Alexander Baygeldin"]
-  spec.email = ["a.baygeldin@gmail.com"]
-  spec.homepage = "https://github.com/baygeldin/tantiny"
-  spec.summary = "Tiny full-text search for Ruby powered by Tantivy."
+  spec.authors = ["Christian Toscano"]
+  spec.email = ["a.christian.toscano@gmail.com"]
+  spec.homepage = "https://github.com/a-chris/tantiny-in-memory"
+  spec.summary = "Tiny full-text search for Ruby powered by Tantivy but in memory!"
 
   spec.license = "MIT"
 
   spec.metadata = {
-    "bug_tracker_uri" => "https://github.com/baygeldin/tantiny/issues",
-    "changelog_uri" => "https://github.com/baygeldin/tantiny/blob/master/CHANGELOG.md",
-    "documentation_uri" => "https://github.com/baygeldin/tantiny/blob/master/README.md",
-    "homepage_uri" => "https://github.com/baygeldin/tantiny",
-    "source_code_uri" => "https://github.com/baygeldin/tantiny"
+    "bug_tracker_uri" => "https://github.com/a-chris/tantiny-in-memory/issues",
+    "changelog_uri" => "https://github.com/a-chris/tantiny-in-memory/blob/master/CHANGELOG.md",
+    "documentation_uri" => "https://github.com/a-chris/tantiny-in-memory/blob/master/README.md",
+    "homepage_uri" => "https://github.com/a-chris/tantiny-in-memory",
+    "source_code_uri" => "https://github.com/a-chris/tantiny-in-memory"
   }
 
   spec.required_ruby_version = ">= 2.7"
