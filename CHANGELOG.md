@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/a-chris/tantiny-in-memory/compare/v1.0.1...v1.0.2) (2023-09-04)
+
+
+### Bug Fixes
+
+* autoloading tantiny ([cdd54ea](https://github.com/a-chris/tantiny-in-memory/commit/cdd54ea7edf1db2de33bdd2e4e43d0f63a90b170))
+
 ## [1.0.1](https://github.com/a-chris/tantiny-in-memory/compare/v1.0.0...v1.0.1) (2023-09-04)
 
 
