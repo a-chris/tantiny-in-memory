@@ -32,17 +32,29 @@ module Tantiny
 
     private
 
-    def id(key) = @id_field = key
+    def id(key)
+      @id_field = key
+    end
 
-    def string(key) = @string_fields << key
+    def string(key)
+      @string_fields << key
+    end
 
-    def integer(key) = @integer_fields << key
+    def integer(key)
+      @integer_fields << key
+    end
 
-    def double(key) = @double_fields << key
+    def double(key)
+      @double_fields << key
+    end
 
-    def date(key) = @date_fields << key
+    def date(key)
+      @date_fields << key
+    end
 
-    def facet(key) = @facet_fields << key
+    def facet(key)
+      @facet_fields << key
+    end
 
     def text(key, tokenizer: nil)
       @field_tokenizers[key] = tokenizer if tokenizer

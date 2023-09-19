@@ -25,9 +25,10 @@ methods!(
     _itself,
 
     fn new_simple_tokenizer() -> RTantinyTokenizer {
-        let tokenizer = TextAnalyzer::from(SimpleTokenizer)
-            .filter(RemoveLongFilter::limit(40))
-            .filter(LowerCaser);
+        let tokenizer = TextAnalyzer::builder(SimpleTokenizer::default())
+            .filter_dynamic(RemoveLongFilter::limit(40))
+            .filter_dynamic(LowerCaser)
+            .build();
 
         wrap_tokenizer(tokenizer)
     }
@@ -36,10 +37,11 @@ methods!(
         try_unwrap_params!(locale_code: String);
 
         let language: LanguageWrapper = locale_code.parse().try_unwrap();
-        let tokenizer = TextAnalyzer::from(SimpleTokenizer)
-            .filter(RemoveLongFilter::limit(40))
-            .filter(LowerCaser)
-            .filter(Stemmer::new(language.0));
+        let tokenizer = TextAnalyzer::builder(SimpleTokenizer::default())
+            .filter_dynamic(RemoveLongFilter::limit(40))
+            .filter_dynamic(LowerCaser)
+            .filter_dynamic(Stemmer::new(language.0))
+            .build();
 
         wrap_tokenizer(tokenizer)
     }
@@ -59,7 +61,7 @@ methods!(
             min_gram as usize,
             max_gram as usize,
             prefix_only
-        );
+        ).unwrap();
 
         wrap_tokenizer(TextAnalyzer::from(tokenizer))
     }
@@ -91,4 +93,7 @@ pub(super) fn init() {
         klass.def_self("__new_ngram_tokenizer", new_ngram_tokenizer);
         klass.def("__extract_terms", extract_terms);
     });
-} 
+}
+
+
+

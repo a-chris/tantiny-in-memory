@@ -1,7 +1,9 @@
 use std::collections::HashMap;
-use std::str::FromStr;
 use rutie::{methods, Object, AnyObject, Integer, NilClass, Array, RString, Hash};
-use tantivy::{doc, Document, Term, ReloadPolicy, Index, IndexWriter, IndexReader, DateTime};
+use tantivy::time::OffsetDateTime;
+use tantivy::time::format_description::well_known::Rfc3339;
+use tantivy::{doc, DateTime, Document, Term, ReloadPolicy, Index, IndexWriter, IndexReader};
+use tantivy::query::QueryParser;
 use tantivy::schema::{Schema, TextOptions, TextFieldIndexing, IndexRecordOption, FacetOptions, STRING, STORED, INDEXED, FAST};
 use tantivy::collector::TopDocs;
 
@@ -90,7 +92,7 @@ methods!(
         }
 
         for field in facet_fields {
-            let options = FacetOptions::default().set_indexed();
+            let options = FacetOptions::default();
             schema_builder.add_facet_field(&field, options);
         }
 
@@ -168,8 +170,8 @@ methods!(
 
         for (key, value) in date_fields.iter() {
             let field = schema.get_field(key).try_unwrap();
-            let value = DateTime::from_str(value).try_unwrap();
-            doc.add_date(field, &value);
+            let value = DateTime::from_utc(OffsetDateTime::parse(value, &Rfc3339).unwrap());
+            doc.add_date(field, value);
         }
 
         for (key, value) in facet_fields.iter() {
@@ -239,6 +241,44 @@ methods!(
         NilClass::new()
     }
 
+    fn raw_query_search(
+      query_string: RString,
+      limit: Integer
+    ) -> Array {
+      try_unwrap_params!(
+        query_string: String,
+        limit: i64
+      );
+
+      let internal = unwrap_index(&_itself);
+      let content_field = internal.schema.get_field("content").try_unwrap();
+      let query_parser = QueryParser::for_index(
+        &internal.index,
+        vec![content_field],
+      );
+
+      let query = query_parser.parse_query(&query_string).try_unwrap();
+      let id_field = internal.schema.get_field("id").try_unwrap();
+      let searcher = internal.index_reader.searcher();
+
+      let top_docs = searcher
+          .search(&*query, &TopDocs::with_limit(limit as usize))
+          .try_unwrap();
+
+      let mut array = Array::with_capacity(top_docs.len());
+
+      for (_score, doc_address) in top_docs {
+          let doc = searcher.doc(doc_address).try_unwrap();
+          if let Some(value) = doc.get_first(id_field) {
+              if let Some(id) = (&*value).as_text() {
+                  array.push(RString::from(String::from(id)));
+              }
+          }
+      }
+
+      array
+    }
+
     fn search(
         query: AnyObject,
         limit: Integer
@@ -262,7 +302,7 @@ methods!(
         for (_score, doc_address) in top_docs {
             let doc = searcher.doc(doc_address).try_unwrap();
             if let Some(value) = doc.get_first(id_field) {
-                if let Some(id) = (&*value).text() {
+                if let Some(id) = (&*value).as_text() {
                     array.push(RString::from(String::from(id)));
                 }
             }
@@ -282,5 +322,6 @@ pub(super) fn init() {
         klass.def("__commit", commit);
         klass.def("__reload", reload);
         klass.def("__search", search);
+        klass.def("__raw_query_search", raw_query_search);
     });
 }

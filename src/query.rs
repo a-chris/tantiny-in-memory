@@ -1,9 +1,10 @@
-use std::str::FromStr;
 use std::ops::Bound::Included;
 use rutie::{methods, Object, AnyObject, Integer, Float, Array, RString};
 use tantivy::{Term, DateTime};
 use tantivy::schema::{IndexRecordOption, Facet, Type, FieldType};
 use tantivy::query::*;
+use tantivy::time::format_description::well_known::Rfc3339;
+use tantivy::time::OffsetDateTime;
 
 use crate::helpers::{try_unwrap_params, scaffold, TryUnwrap};
 use crate::index::{unwrap_index, RTantinyIndex};
@@ -133,13 +134,13 @@ methods!(
             FieldType::Date(_) => {
                 let from: String = from.try_unwrap();
                 let to: String = to.try_unwrap();
-                let from = DateTime::from_str(&from).try_unwrap();
-                let to = DateTime::from_str(&to).try_unwrap();
+                let from = DateTime::from_utc(OffsetDateTime::parse(&from, &Rfc3339).unwrap());
+                let to = DateTime::from_utc(OffsetDateTime::parse(&to, &Rfc3339).unwrap());
 
                 Ok((
                     Type::Date,
-                    Included(Term::from_field_date(field, &from)),
-                    Included(Term::from_field_date(field, &to))
+                    Included(Term::from_field_date(field, from)),
+                    Included(Term::from_field_date(field, to))
                 ))
             },
             FieldType::I64(_) => {
@@ -167,7 +168,7 @@ methods!(
 
         let (value_type, left, right) = range.try_unwrap();
 
-        let query = RangeQuery::new_term_bounds(field, value_type, &left, &right);
+        let query = RangeQuery::new_term_bounds(field_name.to_string(), value_type, &left, &right);
 
         wrap_query(Box::new(query))
     }
@@ -257,4 +258,4 @@ pub(super) fn init() {
         klass.def("__negation", negation);
         klass.def("__boost", boost);
     });
-} 
+}
