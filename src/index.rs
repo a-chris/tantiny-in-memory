@@ -100,10 +100,10 @@ methods!(
         let index = Index::create_in_ram(schema.clone());
         let tokenizers = index.tokenizers();
 
-        tokenizers.register("default", unwrap_tokenizer(&default_tokenizer).clone());
+        tokenizers.register("default", (&unwrap_tokenizer(default_tokenizer)).clone());
 
         for (field, tokenizer) in field_tokenizers {
-            tokenizers.register(&field, unwrap_tokenizer(&tokenizer).clone())
+            tokenizers.register(&field, (&unwrap_tokenizer(tokenizer)).clone())
         }
 
         let index_writer = None;

@@ -84,7 +84,7 @@ module Tantiny
     def raw_query_search(query, limit: DEFAULT_LIMIT)
       raise ArgumentError, "Query must be a string" unless query.is_a?(String)
 
-        __raw_query_search(query, limit)
+      __raw_query_search(query, limit)
     end
 
     def search(query, limit: DEFAULT_LIMIT, **smart_query_options)

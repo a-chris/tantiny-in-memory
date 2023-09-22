@@ -15,19 +15,19 @@ fn wrap_tokenizer(tokenizer: TextAnalyzer) -> RTantinyTokenizer {
     )
 }
 
-pub(crate) fn unwrap_tokenizer(tokenizer: &RTantinyTokenizer) -> &TextAnalyzer {
-    &tokenizer.get_data(&*TANTINY_TOKENIZER_WRAPPER).0
+pub(crate) fn unwrap_tokenizer(tokenizer: RTantinyTokenizer) -> TextAnalyzer {
+    tokenizer.get_data(&*TANTINY_TOKENIZER_WRAPPER).0.clone()
 }
 
 #[rustfmt::skip::macros(methods)]
 methods!(
     RTantinyTokenizer,
-    _itself,
+    _itself,-q
 
     fn new_simple_tokenizer() -> RTantinyTokenizer {
         let tokenizer = TextAnalyzer::builder(SimpleTokenizer::default())
-            .filter_dynamic(RemoveLongFilter::limit(40))
-            .filter_dynamic(LowerCaser)
+            .filter(RemoveLongFilter::limit(40))
+            .filter(LowerCaser)
             .build();
 
         wrap_tokenizer(tokenizer)
@@ -38,9 +38,9 @@ methods!(
 
         let language: LanguageWrapper = locale_code.parse().try_unwrap();
         let tokenizer = TextAnalyzer::builder(SimpleTokenizer::default())
-            .filter_dynamic(RemoveLongFilter::limit(40))
-            .filter_dynamic(LowerCaser)
-            .filter_dynamic(Stemmer::new(language.0))
+            .filter(RemoveLongFilter::limit(40))
+            .filter(LowerCaser)
+            .filter(Stemmer::new(language.0))
             .build();
 
         wrap_tokenizer(tokenizer)
@@ -61,15 +61,16 @@ methods!(
             min_gram as usize,
             max_gram as usize,
             prefix_only
-        ).unwrap();
+        );
 
-        wrap_tokenizer(TextAnalyzer::from(tokenizer))
+        wrap_tokenizer(TextAnalyzer::from(tokenizer.try_unwrap()))
     }
 
     fn extract_terms(text: RString) -> Array {
         try_unwrap_params!(text: String);
 
-        let mut token_stream = unwrap_tokenizer(&_itself).token_stream(&text);
+        let mut tokenizer: TextAnalyzer = unwrap_tokenizer(_itself);
+        let mut token_stream = tokenizer.token_stream(&text);
         let mut terms = vec![];
 
         while token_stream.advance() {
