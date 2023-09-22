@@ -22,7 +22,7 @@ pub(crate) fn unwrap_tokenizer(tokenizer: RTantinyTokenizer) -> TextAnalyzer {
 #[rustfmt::skip::macros(methods)]
 methods!(
     RTantinyTokenizer,
-    _itself,-q
+    _itself,
 
     fn new_simple_tokenizer() -> RTantinyTokenizer {
         let tokenizer = TextAnalyzer::builder(SimpleTokenizer::default())
